@@ -1,2 +1,10 @@
-package br.com.rocketseat.planner.participant;public interface ParticipantRepository {
+package br.com.rocketseat.planner.participant;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.UUID;
+
+@Repository
+public interface ParticipantRepository extends JpaRepository<Participant, UUID> {
 }
