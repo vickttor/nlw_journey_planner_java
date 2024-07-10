@@ -1,5 +1,6 @@
 package br.com.rocketseat.planner.participant;
 
+import br.com.rocketseat.planner.participant.dtos.ParticipantCreateResponse;
 import br.com.rocketseat.planner.trip.Trip;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,19 @@ public class ParticipantService {
        System.out.println(participants.get(0).getId());
     }
 
+    public ParticipantCreateResponse registerParticipantToTrip(String email, Trip trip){
+        Participant participant = new Participant(email, trip);
+
+        this.participantRepository.save(participant);
+
+        return new ParticipantCreateResponse(participant.getId());
+    }
+
     public void triggerConfirmationEmailToParticipants(UUID tripId) {
+
+    }
+
+    public void triggerConfirmationEmailToParticipant(String email) {
 
     }
 }

@@ -1,6 +1,8 @@
 package br.com.rocketseat.planner.trip;
 
 import br.com.rocketseat.planner.participant.ParticipantService;
+import br.com.rocketseat.planner.participant.dtos.ParticipantCreateResponse;
+import br.com.rocketseat.planner.participant.dtos.ParticipantRequestPayload;
 import br.com.rocketseat.planner.trip.dtos.TripCreateResponse;
 import br.com.rocketseat.planner.trip.dtos.TripRequestPayload;
 import org.apache.coyote.Response;
@@ -10,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -71,6 +75,23 @@ public class TripController {
             this.participantService.triggerConfirmationEmailToParticipants(id);
 
             return ResponseEntity.ok(rawTrip);
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/{id}/invite")
+    public ResponseEntity<ParticipantCreateResponse> inviteParticipant(@PathVariable UUID id, @RequestBody ParticipantRequestPayload payload) {
+        Optional<Trip> trip = this.tripRepository.findById(id);
+
+        if(trip.isPresent()){
+            Trip rawTrip = trip.get();
+
+            ParticipantCreateResponse participantCreateResponse = this.participantService.registerParticipantToTrip(payload.email(), rawTrip);
+
+            if(rawTrip.getIsConfirmed()) this.participantService.triggerConfirmationEmailToParticipant(payload.email());
+
+            return ResponseEntity.ok(participantCreateResponse);
         }
 
         return ResponseEntity.notFound().build();
