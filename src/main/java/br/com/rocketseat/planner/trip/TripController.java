@@ -1,24 +1,21 @@
 package br.com.rocketseat.planner.trip;
 
-import br.com.rocketseat.planner.activities.ActivityService;
-import br.com.rocketseat.planner.activities.dtos.ActivityData;
-import br.com.rocketseat.planner.activities.dtos.ActivityRequestPayload;
-import br.com.rocketseat.planner.activities.dtos.ActivityResponse;
-import br.com.rocketseat.planner.participant.Participant;
+import br.com.rocketseat.planner.activitiy.ActivityService;
+import br.com.rocketseat.planner.activitiy.dtos.ActivityData;
+import br.com.rocketseat.planner.activitiy.dtos.ActivityRequestPayload;
+import br.com.rocketseat.planner.activitiy.dtos.ActivityResponse;
 import br.com.rocketseat.planner.participant.ParticipantService;
 import br.com.rocketseat.planner.participant.dtos.ParticipantCreateResponse;
 import br.com.rocketseat.planner.participant.dtos.ParticipantData;
 import br.com.rocketseat.planner.participant.dtos.ParticipantRequestPayload;
 import br.com.rocketseat.planner.trip.dtos.TripCreateResponse;
 import br.com.rocketseat.planner.trip.dtos.TripRequestPayload;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;

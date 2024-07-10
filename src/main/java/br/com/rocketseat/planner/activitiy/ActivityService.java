@@ -1,9 +1,8 @@
-package br.com.rocketseat.planner.activities;
+package br.com.rocketseat.planner.activitiy;
 
-import br.com.rocketseat.planner.activities.dtos.ActivityData;
-import br.com.rocketseat.planner.activities.dtos.ActivityRequestPayload;
-import br.com.rocketseat.planner.activities.dtos.ActivityResponse;
-import br.com.rocketseat.planner.participant.dtos.ParticipantData;
+import br.com.rocketseat.planner.activitiy.dtos.ActivityData;
+import br.com.rocketseat.planner.activitiy.dtos.ActivityRequestPayload;
+import br.com.rocketseat.planner.activitiy.dtos.ActivityResponse;
 import br.com.rocketseat.planner.trip.Trip;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

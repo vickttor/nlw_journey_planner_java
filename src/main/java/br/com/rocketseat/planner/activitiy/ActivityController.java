@@ -1,4 +1,4 @@
-package br.com.rocketseat.planner.activities;
+package br.com.rocketseat.planner.activitiy;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
