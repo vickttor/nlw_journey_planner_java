@@ -1,7 +1,9 @@
 package br.com.rocketseat.planner.trip;
 
+import br.com.rocketseat.planner.participant.Participant;
 import br.com.rocketseat.planner.participant.ParticipantService;
 import br.com.rocketseat.planner.participant.dtos.ParticipantCreateResponse;
+import br.com.rocketseat.planner.participant.dtos.ParticipantData;
 import br.com.rocketseat.planner.participant.dtos.ParticipantRequestPayload;
 import br.com.rocketseat.planner.trip.dtos.TripCreateResponse;
 import br.com.rocketseat.planner.trip.dtos.TripRequestPayload;
@@ -95,5 +97,11 @@ public class TripController {
         }
 
         return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/{id}/participants")
+    public ResponseEntity<List<ParticipantData>> getAllParticipants(@PathVariable UUID id) {
+        List<ParticipantData> participantList = this.participantService.getAllParticipantsFromTrip(id);
+        return ResponseEntity.ok(participantList);
     }
 }
