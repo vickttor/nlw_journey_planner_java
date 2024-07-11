@@ -1,0 +1,32 @@
+services:
+  db:
+    image: postgres
+    restart: always
+    container_name: "planner_db"
+    environment:
+      POSTGRES_USER: planner
+      POSTGRES_PASSWORD: nlw_journey
+      POSTGRES_DB: planner_db
+  api:
+    build: .
+    restart: always
+    container_name: "planner_api"
+    environment:
+      PG_HOST: db
+      PG_PORT: 5432
+      PG_DB: planner_db
+      PG_USER: planner
+      PG_PASS: nlw_journey
+      SPRING_PROFILES_ACTIVE: dev
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+  adminer:
+    image: adminer
+    container_name: "planner_db_dashboard"
+    restart: always
+    ports:
+      - 8081:8080
+    depends_on:
+      - db

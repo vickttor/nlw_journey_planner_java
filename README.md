@@ -46,8 +46,8 @@ Then, execute the project with the `run` button of the IDE.
 - [X] Add validation to datetime properties 
 - [X] Extract the core logic of the Trips controller and add into a Service Class.
 - [X] Implement Exception handlers do avoid the return of `500` server errors
-- [ ] Implement PostgreSQL as main database by using docker
-- [ ] Create a `compose.yaml` file to execute the API and database creation with only one command.
+- [X] Implement PostgreSQL as main database by using docker
+- [X] Create a `compose.yaml` file to execute the API and database creation with only one command.
   ```bash
   docker compose up -d
   ```
