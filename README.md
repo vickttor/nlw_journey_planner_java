@@ -41,10 +41,10 @@ After that, open the project with an IDE such as:
 
 Then, execute the project with the `run` button of the IDE.
 
-### Next Steps
+### Improvements
 
 - [ ] Add validation to datetime properties 
-- [ ] Extract the core logic of the Trips controller and add into a Service Class.
+- [X] Extract the core logic of the Trips controller and add into a Service Class.
 - [ ] Implement Exception handlers do avoid the return of `500` server errors
 - [ ] Implement PostgreSQL as main database by using docker
 - [ ] Create a `compose.yaml` file to execute the API and database creation with only one command.
