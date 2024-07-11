@@ -1,15 +1,20 @@
 package br.com.rocketseat.planner.trip;
 
+import br.com.rocketseat.planner.exceptions.InvalidDateRangeException;
+import br.com.rocketseat.planner.exceptions.InvalidEmailException;
+import br.com.rocketseat.planner.exceptions.MaxLengthExceededException;
+import br.com.rocketseat.planner.exceptions.MissingPropertyException;
 import br.com.rocketseat.planner.participant.ParticipantService;
 import br.com.rocketseat.planner.trip.dtos.TripCreateResponse;
 import br.com.rocketseat.planner.trip.dtos.TripData;
 import br.com.rocketseat.planner.trip.dtos.TripRequestPayload;
+import br.com.rocketseat.planner.utils.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,8 +27,30 @@ public class TripService {
     @Autowired
     private ParticipantService participantService;
 
+    public TripCreateResponse createTrip(TripRequestPayload payload) throws
+        MaxLengthExceededException,
+        InvalidEmailException,
+        InvalidDateRangeException,
+        DateTimeParseException,
+        MissingPropertyException
+    {
+        if(payload.owner_name() == null || payload.owner_name().isEmpty()) throw new MissingPropertyException("name");
+        if(payload.owner_email() == null || payload.owner_email().isEmpty()) throw new MissingPropertyException("email");
+        if(payload.destination() == null || payload.destination().isEmpty()) throw new MissingPropertyException("destination");
+        if(!Validator.isValidEmail(payload.owner_email()))
+            throw new InvalidEmailException("The email " + payload.owner_email() + " is not valid");
 
-    public TripCreateResponse createTrip(TripRequestPayload payload) {
+        if(payload.emails_to_invite() == null) throw new MissingPropertyException("emails_to_invite");
+        if(payload.owner_name().length() > 255) throw new MaxLengthExceededException("name", 255);
+        if(payload.owner_email().length() > 255) throw new MaxLengthExceededException("email", 255);
+        if(payload.destination().length() > 255) throw new MaxLengthExceededException("destination", 255);
+
+        LocalDateTime parsedStartsAt = LocalDateTime.parse(payload.starts_at(), DateTimeFormatter.ISO_DATE_TIME);
+        LocalDateTime parsedEndsAt = LocalDateTime.parse(payload.ends_at(), DateTimeFormatter.ISO_DATE_TIME);
+
+        if(!parsedStartsAt.isBefore(parsedEndsAt))
+            throw new InvalidDateRangeException("Start Date is not before the end date");
+
         Trip newTrip = new Trip(payload);
 
         this.tripRepository.save(newTrip);
@@ -45,10 +72,25 @@ public class TripService {
         ));
     }
 
-    public Trip updateTripDetails(Trip rawTrip, TripRequestPayload payload){
+    public Trip updateTripDetails(Trip rawTrip, TripRequestPayload payload) throws
+        MaxLengthExceededException,
+        InvalidEmailException,
+        InvalidDateRangeException,
+        DateTimeParseException,
+        MissingPropertyException
+    {
 
-        rawTrip.setEndsAt(LocalDateTime.parse(payload.ends_at(), DateTimeFormatter.ISO_DATE_TIME));
-        rawTrip.setEndsAt(LocalDateTime.parse(payload.starts_at(), DateTimeFormatter.ISO_DATE_TIME));
+        if(payload.destination() == null || payload.destination().isEmpty()) throw new MissingPropertyException("destination");
+        if(payload.destination().length() > 255) throw new MaxLengthExceededException("destination", 255);
+
+        LocalDateTime parsedStartsAt = LocalDateTime.parse(payload.starts_at(), DateTimeFormatter.ISO_DATE_TIME);
+        LocalDateTime parsedEndsAt = LocalDateTime.parse(payload.ends_at(), DateTimeFormatter.ISO_DATE_TIME);
+
+        if(!parsedStartsAt.isBefore(parsedEndsAt))
+            throw new InvalidDateRangeException("Start Date is not before the end date");
+
+        rawTrip.setEndsAt(parsedStartsAt);
+        rawTrip.setEndsAt(parsedEndsAt);
         rawTrip.setDestination(payload.destination());
 
         this.saveTrip(rawTrip);
