@@ -12,14 +12,15 @@ This project was built during the Rocketseat NLW Journey, a 3-day event to learn
 
 ### Tech Stack
 
-- Java 21
+- Java 17
 - Maven
 - Spring Boot
 - Lombok
 - Fly Way
-- H2 Database
+- Postgres SQL
 - Hibernate JPA
 - Spring Boot DevTools
+- Docker
 
 ### How to run
 
@@ -33,21 +34,25 @@ git clone https://github.com/vickttor/nlw_journey_planner_java.git
 git clone git@github.com:vickttor/nlw_journey_planner_java.git 
 ```
 
-After that, open the project with an IDE such as:
-- Intellij IDE Community
-- VsCode (it'll be necessary to install the Java Extension)
-- Apache Netbeans 21
-- Eclipse
+Install the **[Docker](https://www.docker.com/products/docker-desktop/)** and run the following command:
 
-Then, execute the project with the `run` button of the IDE.
+```bash
+docker compose up -d
+```
+
+This command will execute the steps of the `compose.yaml` file execute both API and PostgreSQL database. To stop the execution, run:
+
+```bash
+docker compose down
+```
 
 ### Improvements
 
 - [X] Add validation to datetime properties 
 - [X] Extract the core logic of the Trips controller and add into a Service Class.
 - [X] Implement Exception handlers do avoid the return of `500` server errors
-- [X] Implement PostgreSQL as main database by using docker
-- [X] Create a `compose.yaml` file to execute the API and database creation with only one command.
+- [X] Implement Postgres as the main database by using docker and docker compose
+- [X] Create a `compose.yaml` file to execute the API and create the database with only one command.
   ```bash
   docker compose up -d
   ```
